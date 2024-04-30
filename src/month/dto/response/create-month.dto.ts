@@ -1,18 +1,11 @@
-import { IsInt, IsString } from 'class-validator';
+import { IsInt } from 'class-validator';
 
-export class CreateMonthDto {
-  @IsString()
-  readonly date: Date;
+import { MonthState } from '../../../typeorm/entities/MonthState';
 
+export class CreateMonthResponseDto {
   @IsInt()
-  readonly in: number;
+  readonly diff: number;
 
-  @IsInt()
-  readonly out: number;
+  readonly monthState: MonthState;
 
-  @IsInt()
-  readonly buffer: number;
-
-  @IsInt()
-  readonly invest: number;
 }

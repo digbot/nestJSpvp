@@ -6,7 +6,8 @@ import {
   Post,
   Injectable,
 } from '@nestjs/common';
-import { CreateMonthDto } from './create-month.dto';
+import { CreateRequestMonthDto } from '../month/dto/request/create-month.dto';
+import { CreateMonthResponseDto } from '../month/dto/response/create-month.dto';
 import { MonthService } from './service/month.service';
 
 @Injectable()
@@ -15,10 +16,15 @@ export class MonthController {
   constructor(private readonly monthService: MonthService) {}
 
   @Post()
-  async create(@Body() createMonthDto: CreateMonthDto) {
-    const result = this.monthService.createAsync(createMonthDto);
+  async create(@Body() createMonthDto: CreateRequestMonthDto) {
+    const monthState = await this.monthService.createAsync(createMonthDto);
+    const diff = createMonthDto.in - createMonthDto.out;
+    const createMonthResponseDto: CreateMonthResponseDto = {
+      diff: diff,
+      monthState: monthState,
+    };
 
-    return result;
+    return createMonthResponseDto;
   }
 
   @Delete()

@@ -1,6 +1,6 @@
 import { IsInt, IsString } from 'class-validator';
 
-export class CreateMonthDto {
+export class CreateRequestMonthDto {
   @IsString()
   readonly date: Date;
 
