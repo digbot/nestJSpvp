@@ -7,7 +7,6 @@ import { MonthModule } from './month/month.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import typeorm from './config/typeorm';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -20,7 +19,8 @@ import typeorm from './config/typeorm';
   }),  
   MonthModule,
   ],
-  controllers: [AppController,],
+  controllers: [AppController],
   providers: [AppService],
+  exports: [MonthModule]
 })
 export class AppModule { }

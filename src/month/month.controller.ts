@@ -1,12 +1,29 @@
-import { Controller, Get } from '@nestjs/common';
-import { MonthService } from './month.service';
+import {
+  Body,
+  Get,
+  Delete,
+  Controller,
+  Post,
+  Injectable,
+} from '@nestjs/common';
+import { CreateMonthDto } from './create-month.dto';
+import { MonthService } from './service/month.service';
 
-@Controller()
+@Injectable()
+@Controller('month')
 export class MonthController {
-  constructor(private readonly appService: MonthService) {}
+  constructor(private readonly monthService: MonthService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Post()
+  async create(@Body() createMonthDto: CreateMonthDto) {
+    const result = this.monthService.createAsync(createMonthDto);
+
+    return result;
+  }
+
+  @Delete()
+  async delete() {
+    this.monthService.deleteAllAsync();
+    return { 'status': 'ok' }
   }
 }

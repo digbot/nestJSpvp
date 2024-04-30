@@ -1,5 +1,5 @@
-import { registerAs } from "@nestjs/config";
-import { DataSource, DataSourceOptions } from "typeorm";
+import { registerAs } from '@nestjs/config';
+import { DataSource, DataSourceOptions } from 'typeorm';
 
 const config = {
   type: 'mysql',
@@ -9,10 +9,11 @@ const config = {
   password: 'mgxTWv1D',
   database: 'pvp',
   synchronize: true,
-  entities: ["src/typeorm/entities/**/*.entity{.ts,.js}"],
-  migrations: ["src/migrations/*{.ts,.js}"],
+  entities: ['src/typeorm/entities/**/*.entity{.ts,.js}'],
+  //migrations: ['src/migrations/*{.ts,.js}'],
   autoLoadEntities: true,
 };
 
-export default registerAs('typeorm', () => config)
+export default registerAs('typeorm', () => config);
+
 export const connectionSource = new DataSource(config as DataSourceOptions);
