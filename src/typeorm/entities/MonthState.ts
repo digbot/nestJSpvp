@@ -17,5 +17,10 @@ export class MonthState {
   @Column({ nullable: true })
   buffer: number;
 
-  // Add other columns as needed
+  @Column()
+  invest: number;
+
+  diff(): number {
+    return this.in - this.out;
+  }
 }

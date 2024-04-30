@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { MonthState } from '../../typeorm/entities/MonthState';
 import { CreateMonthDto } from '../create-month.dto';
+import { CreateMonthResponseDto } from '../dto/response/create-month.dto';
 
 @Injectable()
 export class MonthService {
@@ -30,5 +31,17 @@ export class MonthService {
 
   deleteAllAsync() {
     this.monthRepository.clear();
+  }
+
+  async getAllAsync(): Promise<Array<CreateMonthResponseDto>> {
+    const list: MonthState[] = await this.monthRepository.find({});
+    return list.map((x) => this.mapEntityToDto(x));
+  }
+
+  private mapEntityToDto(monthState: MonthState): CreateMonthResponseDto {
+    return {
+      monthState: monthState,
+      diff: monthState.in - monthState.out,
+    };
   }
 }

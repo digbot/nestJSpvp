@@ -7,5 +7,4 @@ export class CreateMonthResponseDto {
   readonly diff: number;
 
   readonly monthState: MonthState;
-
 }
