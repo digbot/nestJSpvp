@@ -1,8 +1,7 @@
 import { IsInt } from 'class-validator';
-
 import { MonthState } from '../../../typeorm/entities/MonthState';
 
-export class CreateMonthResponseDto {
+export class ListDetailsResponseDto {
   @IsInt()
   readonly diff: number;
 

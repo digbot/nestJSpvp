@@ -12,7 +12,6 @@ import { CreateRequestMonthDto } from '../month/dto/request/create-month.dto';
 import { CreateMonthResponseDto } from '../month/dto/response/create-month.dto';
 import { SuccessResponseDto } from '../month/dto/response/success-response';
 import { MonthService } from './service/month.service';
-import { ListMonthResponseDto } from '../month/dto/response/list-month.dto';
 import { ClassSerializerInterceptor, UseInterceptors } from '@nestjs/common';
 
 @Injectable()
@@ -23,9 +22,10 @@ export class MonthController {
   @Post()
   async create(@Body() createMonthDto: CreateRequestMonthDto) {
     const monthState = await this.monthService.createAsync(createMonthDto);
-    const diff = createMonthDto.in - createMonthDto.out;
     const createMonthResponseDto: CreateMonthResponseDto = {
-      diff: diff,
+      diff: createMonthDto.in - createMonthDto.out,
+      diffWithoutInvest:
+        createMonthDto.in - createMonthDto.out - createMonthDto.invest,
       monthState: monthState,
     };
 
@@ -37,7 +37,14 @@ export class MonthController {
   @Get()
   async getAll() {
     const res = await this.monthService.getAllAsync();
+    return res;
+  }
 
+  @UseInterceptors(ClassSerializerInterceptor)
+  @UsePipes(new ValidationPipe({ transform: true }))
+  @Get('/short')
+  async getAllShort() {
+    const res = await this.monthService.getAllShortAsync();
     return res;
   }
 

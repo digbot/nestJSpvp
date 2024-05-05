@@ -3,7 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { MonthState } from '../../typeorm/entities/MonthState';
 import { CreateMonthDto } from '../create-month.dto';
-import { CreateMonthResponseDto } from '../dto/response/create-month.dto';
+import { ListDetailsResponseDto } from '../dto/response/list-details.dto';
+import { ListShortResponseDto } from '../dto/response/list-short.dto';
 
 @Injectable()
 export class MonthService {
@@ -13,8 +14,7 @@ export class MonthService {
   ) {}
 
   async createAsync(createMonthDto: CreateMonthDto): Promise<MonthState> {
-    console.log(createMonthDto);
-    const date = createMonthDto.date;
+    const date = new Date(createMonthDto.date);
     const item = await this.monthRepository.findOne({
       where: { date: new Date(date) },
     });
@@ -33,15 +33,70 @@ export class MonthService {
     this.monthRepository.clear();
   }
 
-  async getAllAsync(): Promise<Array<CreateMonthResponseDto>> {
-    const list: MonthState[] = await this.monthRepository.find({});
+  async getAllShortAsync(): Promise<Array<ListShortResponseDto>> {
+    const list: MonthState[] = await this.monthRepository.find({
+      order: {
+        date: 'DESC',
+      },
+    });
+    return list.map((x) => this.mapShortToDto(x));
+  }
+
+  async getAllAsync(): Promise<Array<ListDetailsResponseDto>> {
+    const list: MonthState[] = await this.monthRepository.find({
+      order: {
+        date: 'DESC',
+      },
+    });
     return list.map((x) => this.mapEntityToDto(x));
   }
 
-  private mapEntityToDto(monthState: MonthState): CreateMonthResponseDto {
+  private mapShortToDto(monthState: MonthState): ListShortResponseDto {
+    return {
+      grath: this.printChart((monthState.out - monthState.invest) / 100),
+      date: this.getMonthAbbreviation(monthState.date),
+      diff: monthState.in - monthState.out,
+      diffWithoutInvest: monthState.out - monthState.invest,
+      invest: monthState.invest,
+    };
+  }
+
+  private mapEntityToDto(monthState: MonthState): ListDetailsResponseDto {
     return {
       monthState: monthState,
       diff: monthState.in - monthState.out,
+      diffWithoutInvest: monthState.out - monthState.invest,
     };
+  }
+
+  private getMonthAbbreviation(date: Date): string {
+    const monthNames = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
+    const monthIndex = date.getMonth();
+    return monthNames[monthIndex];
+  }
+
+  private printChart(value: number): string {
+    if (value < 0 || value > 100) {
+      return '';
+    }
+
+    const numStars = Math.round((value / 100) * 100); // Scale the value to fit in a 20-character chart
+    return '*'.repeat(numStars);
+  }
+
+  private getCurrentMonthDateString(): string {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1; // Adding 1 because getMonth() returns zero-based month index
+    const day = currentDate.getDate();
+
+    // Ensure leading zero for single-digit days and months
+    const formattedDay = day < 10 ? `0${day}` : `${day}`;
+    const formattedMonth = month < 10 ? `0${month}` : `${month}`;
+
+    return `${formattedDay}.${formattedMonth}.${year}`;
   }
 }
