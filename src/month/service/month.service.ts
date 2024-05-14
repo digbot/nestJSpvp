@@ -52,13 +52,20 @@ export class MonthService {
   }
 
   private mapShortToDto(monthState: MonthState): ListShortResponseDto {
+    const diffWithoutInvest = monthState.out - monthState.invest;
     return {
+      byDay: diffWithoutInvest / 30,
       grath: this.printChart((monthState.out - monthState.invest) / 100),
-      date: this.getMonthAbbreviation(monthState.date),
+      date: this.getDate(monthState),
       diff: monthState.in - monthState.out,
-      diffWithoutInvest: monthState.out - monthState.invest,
+      diffWithoutInvest: diffWithoutInvest,
       invest: monthState.invest,
     };
+  }
+
+  private getDate(monthState: MonthState) {
+    const year = monthState.date.getFullYear();
+    return year + ' q' + this.getMonthAbbreviation(monthState.date);
   }
 
   private mapEntityToDto(monthState: MonthState): ListDetailsResponseDto {
@@ -71,8 +78,18 @@ export class MonthService {
 
   private getMonthAbbreviation(date: Date): string {
     const monthNames = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     const monthIndex = date.getMonth();
     return monthNames[monthIndex];

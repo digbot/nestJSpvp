@@ -1,6 +1,8 @@
 import { IsInt } from 'class-validator';
 
 export class ListShortResponseDto {
+  readonly byDay: number;
+
   @IsInt()
   readonly date: string;
 
