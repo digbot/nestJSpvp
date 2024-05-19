@@ -52,10 +52,15 @@ export class MonthService {
   }
 
   private mapShortToDto(monthState: MonthState): ListShortResponseDto {
-    const diffWithoutInvest = monthState.out - monthState.invest;
+    const diffWithoutInvest =
+      monthState.in - monthState.out + monthState.invest;
     return {
       byDay: diffWithoutInvest / 30,
-      grath: this.printChart((monthState.out - monthState.invest) / 100),
+      grath:
+        monthState.out -
+        monthState.invest +
+        ': ' +
+        this.printChart((monthState.out - monthState.invest) / 100),
       date: this.getDate(monthState),
       diff: monthState.in - monthState.out,
       diffWithoutInvest: diffWithoutInvest,
@@ -65,7 +70,7 @@ export class MonthService {
 
   private getDate(monthState: MonthState) {
     const year = monthState.date.getFullYear();
-    return year + ' q' + this.getMonthAbbreviation(monthState.date);
+    return year + ' ' + this.getMonthAbbreviation(monthState.date);
   }
 
   private mapEntityToDto(monthState: MonthState): ListDetailsResponseDto {
