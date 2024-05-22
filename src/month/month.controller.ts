@@ -48,9 +48,10 @@ export class MonthController {
     return res;
   }
 
+/*
   @Delete()
   async delete() {
     this.monthService.deleteAllAsync();
     return SuccessResponseDto;
-  }
+  }*/
 }
