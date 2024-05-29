@@ -1,3 +1,7 @@
+#data
+
+/data/item.json
+
 # compiled output
 /dist
 /node_modules

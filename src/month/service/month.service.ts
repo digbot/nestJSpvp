@@ -5,6 +5,14 @@ import { MonthState } from '../../typeorm/entities/MonthState';
 import { CreateMonthDto } from '../create-month.dto';
 import { ListDetailsResponseDto } from '../dto/response/list-details.dto';
 import { ListShortResponseDto } from '../dto/response/list-short.dto';
+import { promises as fs } from 'fs';
+// Define the type for the items array
+type Item = [number, number, string, number, number];
+
+// Define the type for the whole JSON structure
+interface Data {
+  items: Item[];
+}
 
 @Injectable()
 export class MonthService {
@@ -52,8 +60,9 @@ export class MonthService {
   }
 
   private mapShortToDto(monthState: MonthState): ListShortResponseDto {
-    const diffWithoutInvest =
-      monthState.in - monthState.out + monthState.invest;
+    const diffWithoutInvest = Math.abs(
+      monthState.in - monthState.out - monthState.invest,
+    );
     return {
       byDay: diffWithoutInvest / 30,
       grath:
@@ -120,5 +129,34 @@ export class MonthService {
     const formattedMonth = month < 10 ? `0${month}` : `${month}`;
 
     return `${formattedDay}.${formattedMonth}.${year}`;
+  }
+
+  private async readFileSync(filePath: string): Promise<any> {
+    try {
+      const data = fs.readFile(filePath, 'utf-8');
+      console.log(data);
+      return data;
+    } catch (err) {
+      console.error('Error reading file:', err);
+    }
+  }
+
+  public async updateold() {
+    const jsonData = await this.readFileSync('./data/items.json');
+    const data: Data = JSON.parse(jsonData);
+    data.items.forEach((item) => {
+      // Destructure the array for clarity
+      const [id, out, date, buffer, invest] = item;
+
+      const newMonth = this.monthRepository.create({
+        in: id,
+        out: out,
+        date: new Date(date),
+        buffer: buffer,
+        invest: invest,
+      });
+      this.monthRepository.save(newMonth);
+  
+    });
   }
 }

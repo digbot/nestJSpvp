@@ -1,6 +1,7 @@
 import {
   Body,
   Get,
+  Patch,
   Delete,
   Controller,
   Post,
@@ -45,6 +46,14 @@ export class MonthController {
   @Get('/short')
   async getAllShort() {
     const res = await this.monthService.getAllShortAsync();
+    return res;
+  }
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @UsePipes(new ValidationPipe({ transform: true }))
+  @Patch()
+  async update() {
+    const res = await this.monthService.updateold();
     return res;
   }
 
