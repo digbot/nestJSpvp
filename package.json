@@ -6,6 +6,8 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "docker:creat_db": "docker pull mysql:8.2.0",
+    "docker:mysql": "docker run -d --name first-mysql-container -e MYSQL_ROOT_PASSWORD=ypassword -p 3307:3306 mysql",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
