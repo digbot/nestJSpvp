@@ -7,6 +7,7 @@ import { MonthModule } from './month/month.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import typeorm from './config/typeorm';
 
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -15,7 +16,15 @@ import typeorm from './config/typeorm';
   }),
   TypeOrmModule.forRootAsync({
     inject: [ConfigService],
-    useFactory: async (configService: ConfigService) => (configService.get('typeorm'))
+    useFactory: async (configService: ConfigService) => {
+      const typeOrmOption = configService.get('typeorm');
+      typeOrmOption.host = configService.get('DB_HOST');
+      typeOrmOption.username = configService.get('DB_USER');
+      typeOrmOption.password = configService.get('DB_PASSWORD');
+      typeOrmOption.database = configService.get('DB_NAME');
+      
+      return configService.get('typeorm');
+    }
   }),  
   MonthModule,
   ],
