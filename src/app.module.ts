@@ -22,7 +22,7 @@ import typeorm from './config/typeorm';
       typeOrmOption.username = configService.get('DB_USER');
       typeOrmOption.password = configService.get('DB_PASSWORD');
       typeOrmOption.database = configService.get('DB_NAME');
-      
+      console.log('typeorm', typeOrmOption);
       return configService.get('typeorm');
     }
   }),  
