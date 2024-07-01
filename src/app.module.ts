@@ -5,6 +5,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MonthModule } from './month/month.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 import typeorm from './config/typeorm';
 
 
@@ -26,7 +28,7 @@ import typeorm from './config/typeorm';
       return configService.get('typeorm');
     }
   }),  
-  MonthModule,
+  MonthModule, AuthModule, UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
