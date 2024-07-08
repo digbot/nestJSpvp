@@ -61,13 +61,13 @@ export class MonthService {
 
   private mapShortToDto(monthState: MonthState): ListShortResponseDto {
     const isCurrentMonth = this.isCurrentMonth(monthState.date);
-    const diffWithoutInvest = Math.abs(
-      monthState.out - monthState.invest,
-    );
-    const now = new Date(); 
-
+    const diffWithoutInvest = Math.abs(monthState.out - monthState.invest);
     return {
-      byDay: diffWithoutInvest / (isCurrentMonth ? this.getCurrentDayOfMonth() : this.getDaysInMonth(monthState.date)),
+      byDay:
+        diffWithoutInvest /
+        (isCurrentMonth
+          ? this.getCurrentDayOfMonth()
+          : this.getDaysInMonth(monthState.date)),
       grath:
         monthState.out -
         monthState.invest +
@@ -127,18 +127,15 @@ export class MonthService {
   private getCurrentDayOfMonth(): number {
     const currentDate = new Date();
     return currentDate.getDate();
- }
+  }
 
   private isCurrentMonth(date: Date): boolean {
     // Get the current date
     const currentDate = new Date();
-    
     // Get the current month index (0-11)
     const currentMonthIndex = currentDate.getMonth();
-    
     // Get the month index of the provided date (0-11)
     const givenMonthIndex = date.getMonth();
-    
     // Compare the current month index with the given month index
     return currentMonthIndex === givenMonthIndex;
   }
@@ -190,7 +187,6 @@ export class MonthService {
         invest: invest,
       });
       this.monthRepository.save(newMonth);
-  
     });
   }
 }
