@@ -60,11 +60,14 @@ export class MonthService {
   }
 
   private mapShortToDto(monthState: MonthState): ListShortResponseDto {
+    const isCurrentMonth = this.isCurrentMonth(monthState.date);
     const diffWithoutInvest = Math.abs(
-      monthState.in - monthState.out - monthState.invest,
+      monthState.out - monthState.invest,
     );
+    const now = new Date(); 
+
     return {
-      byDay: diffWithoutInvest / 30,
+      byDay: diffWithoutInvest / (isCurrentMonth ? this.getCurrentDayOfMonth() : this.getDaysInMonth(monthState.date)),
       grath:
         monthState.out -
         monthState.invest +
@@ -76,6 +79,18 @@ export class MonthService {
       invest: monthState.invest,
     };
   }
+
+  private getDaysInMonth(date: Date): number {
+    const year = date.getFullYear();
+    const month = date.getMonth(); // January is 0, December is 11
+
+    // Create a date object for the first day of the next month, then subtract one day
+    const nextMonth = new Date(year, month + 1, 1);
+    nextMonth.setDate(nextMonth.getDate() - 1);
+
+    // Return the day of the month of the resulting date
+    return nextMonth.getDate();
+}
 
   private getDate(monthState: MonthState) {
     const year = monthState.date.getFullYear();
@@ -107,6 +122,25 @@ export class MonthService {
     ];
     const monthIndex = date.getMonth();
     return monthNames[monthIndex];
+  }
+
+  private getCurrentDayOfMonth(): number {
+    const currentDate = new Date();
+    return currentDate.getDate();
+ }
+
+  private isCurrentMonth(date: Date): boolean {
+    // Get the current date
+    const currentDate = new Date();
+    
+    // Get the current month index (0-11)
+    const currentMonthIndex = currentDate.getMonth();
+    
+    // Get the month index of the provided date (0-11)
+    const givenMonthIndex = date.getMonth();
+    
+    // Compare the current month index with the given month index
+    return currentMonthIndex === givenMonthIndex;
   }
 
   private printChart(value: number): string {
