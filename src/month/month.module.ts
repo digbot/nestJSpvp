@@ -17,8 +17,6 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
       useClass: JwtAuthGuard,
     },
     MonthService
-
-    
   ],
   controllers: [MonthController],
   exports: [MonthService]

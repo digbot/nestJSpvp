@@ -24,14 +24,14 @@ import typeorm from './config/typeorm';
       typeOrmOption.username = configService.get('DB_USER');
       typeOrmOption.password = configService.get('DB_PASSWORD');
       typeOrmOption.database = configService.get('DB_NAME');
-      console.log(configService);
+  
       return configService.get('typeorm');
     }
   }),  
   MonthModule, AuthModule, UsersModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
-  exports: [MonthModule]
+  providers: [AppService, ConfigService],
+  exports: [MonthModule, ConfigModule]
 })
 export class AppModule { }
