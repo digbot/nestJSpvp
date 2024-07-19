@@ -13,10 +13,10 @@ export class UsersService {
       {
         userId: 1,
         username: 'digger',
-        password: await this.configService.get('DB_PASSWORD'),
+        password: await this.configService.get('USER_PASSWORD'),
       },
     ];
-    console.log(users);
+
     return users.find((User) => User.username === username);
   }
 }

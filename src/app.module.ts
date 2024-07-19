@@ -16,19 +16,19 @@ import typeorm from './config/typeorm';
     envFilePath: '.env', // Path to the .env file
     load: [typeorm]
   }),
-  TypeOrmModule.forRootAsync({
-    inject: [ConfigService],
-    useFactory: async (configService: ConfigService) => {
-      const typeOrmOption = configService.get('typeorm');
-      typeOrmOption.host = configService.get('DB_HOST');
-      typeOrmOption.username = configService.get('DB_USER');
-      typeOrmOption.password = configService.get('DB_PASSWORD');
-      typeOrmOption.database = configService.get('DB_NAME');
-  
-      return configService.get('typeorm');
-    }
-  }),  
-  MonthModule, AuthModule, UsersModule,
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
+        const typeOrmOption = configService.get('typeorm');
+        typeOrmOption.host = configService.get('DB_HOST');
+        typeOrmOption.username = configService.get('DB_USER');
+        typeOrmOption.password = configService.get('DB_PASSWORD');
+        typeOrmOption.database = configService.get('DB_NAME');
+    
+        return configService.get('typeorm');
+      }
+    }),
+    MonthModule, AuthModule, UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService, ConfigService],
