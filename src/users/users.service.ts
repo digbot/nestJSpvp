@@ -8,15 +8,15 @@ export type User = any;
 export class UsersService {
   constructor(private readonly configService: ConfigService) {}
 
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'digger',
-      password: this.configService.get('USER_PASSWORD'),
-    },
-  ];
-
   async findOne(username: string): Promise<User | undefined> {
-    return this.users.find((User) => User.username === username);
+    const users = [
+      {
+        userId: 1,
+        username: 'digger',
+        password: await this.configService.get('DB_PASSWORD'),
+      },
+    ];
+    console.log(users);
+    return users.find((User) => User.username === username);
   }
 }

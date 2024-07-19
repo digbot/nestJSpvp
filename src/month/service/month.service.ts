@@ -165,7 +165,6 @@ export class MonthService {
   private async readFileSync(filePath: string): Promise<any> {
     try {
       const data = fs.readFile(filePath, 'utf-8');
-      console.log(data);
       return data;
     } catch (err) {
       console.error('Error reading file:', err);
