@@ -3,7 +3,7 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 
 const config = {
   type: 'mysql',
-  host: 'localhost',
+  host: 'mysql-db',
   port: parseInt(process.env.DB_PORT) || 3306,
   username: 'pvp',
   password: 'password',

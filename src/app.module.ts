@@ -13,6 +13,7 @@ import typeorm from './config/typeorm';
   imports: [
     ConfigModule.forRoot({
     isGlobal: true,
+    envFilePath: '.env', // Path to the .env file
     load: [typeorm]
   }),
   TypeOrmModule.forRootAsync({
@@ -23,7 +24,7 @@ import typeorm from './config/typeorm';
       typeOrmOption.username = configService.get('DB_USER');
       typeOrmOption.password = configService.get('DB_PASSWORD');
       typeOrmOption.database = configService.get('DB_NAME');
-
+      console.log(configService);
       return configService.get('typeorm');
     }
   }),  

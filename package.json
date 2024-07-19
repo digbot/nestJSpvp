@@ -6,8 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-
-    "docker:build": "docker build -t nestjs-pvp-app .",
+    "docker:build": "docker build -t pvp_docker .",
     "docker:start": "docker run --rm -p 3001:3001 nestjs-app",
     "docker:creat_db": "docker pull mysql:8.2.0",
     "docker:mysql": "docker run -d --name first-mysql-container -e MYSQL_ROOT_PASSWORD=ypassword -p 3307:3306 mysql",
