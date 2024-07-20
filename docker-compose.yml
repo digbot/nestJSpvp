@@ -15,7 +15,7 @@ services:
       - path: ./.env
         required: true # defaul
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSOWRD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     ports:
       - 3336:3306
     expose:
