@@ -47,7 +47,32 @@ export class MonthService {
         date: 'DESC',
       },
     });
-    return list.map((x) => this.mapShortToDto(x));
+
+    const totalByMonthNumber = list.reduce((accumulator, item) => {
+      if (
+        this.isDateInCurrentYear(item.date) &&
+        !this.isCurrentMonth(item.date)
+      ) {
+        accumulator += Math.abs(item.out - item.invest);
+      }
+
+      return accumulator;
+    }, 0);
+
+    const totalByMonthCount = list.reduce((accumulator, item) => {
+      if (
+        this.isDateInCurrentYear(item.date) &&
+        !this.isCurrentMonth(item.date)
+      ) {
+        accumulator += 1;
+      }
+
+      return accumulator;
+    }, 0);
+
+    const totalByMonth = totalByMonthNumber / totalByMonthCount;
+
+    return list.map((x) => this.mapShortToDto(x, totalByMonth));
   }
 
   async getAllAsync(): Promise<Array<ListDetailsResponseDto>> {
@@ -59,7 +84,10 @@ export class MonthService {
     return list.map((x) => this.mapEntityToDto(x));
   }
 
-  private mapShortToDto(monthState: MonthState): ListShortResponseDto {
+  private mapShortToDto(
+    monthState: MonthState,
+    totalByMonth: number,
+  ): ListShortResponseDto {
     const isCurrentMonth = this.isCurrentMonth(monthState.date);
     const diffWithoutInvest = Math.abs(monthState.out - monthState.invest);
     return {
@@ -77,6 +105,7 @@ export class MonthService {
       diff: monthState.in - monthState.out,
       diffWithoutInvest: diffWithoutInvest,
       invest: monthState.invest,
+      middleMonthValue: totalByMonth,
     };
   }
 
@@ -90,7 +119,7 @@ export class MonthService {
 
     // Return the day of the month of the resulting date
     return nextMonth.getDate();
-}
+  }
 
   private getDate(monthState: MonthState) {
     const year = monthState.date.getFullYear();
@@ -138,6 +167,12 @@ export class MonthService {
     const givenMonthIndex = date.getMonth();
     // Compare the current month index with the given month index
     return currentMonthIndex === givenMonthIndex;
+  }
+
+  private isDateInCurrentYear(date: Date): boolean {
+    const currentYear = new Date().getFullYear();
+    const givenYear = date.getFullYear();
+    return currentYear === givenYear;
   }
 
   private printChart(value: number): string {

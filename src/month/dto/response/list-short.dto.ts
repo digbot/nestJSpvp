@@ -16,4 +16,7 @@ export class ListShortResponseDto {
 
   @IsInt()
   readonly invest: number;
+
+  @IsInt()
+  readonly middleMonthValue: number;
 }
