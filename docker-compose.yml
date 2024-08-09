@@ -33,7 +33,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     env_file:
-      - .env
+      - .env.docker
     ports:
       - 3007:3007
     stdin_open: true
@@ -44,6 +44,20 @@ services:
     networks:
       - default
     command: bash -c "npm install && npm run start:prod"
+
+  google-sheet-writer:
+    container_name: google-sheet-writer
+    build:
+      context: ./google_sheet_writer
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./google_sheet_writer/:/app
+    networks:
+      - default
 
 volumes: 
   mysql-volume:
