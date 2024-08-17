@@ -5,7 +5,7 @@ services:
   mysql-db:
     # NOTE: Uncomment the line below if you are using Mac with m1/m2 chip
     # platform: linux/x86_64
-    container_name:  mysql
+    container_name: pvp-mysql
     image: mysql:5.7
     # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
     # (this is just an example, not intended to be a production configuration)
