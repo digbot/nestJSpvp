@@ -47,6 +47,8 @@ services:
 
   google-sheet-writer:
     container_name: google-sheet-writer
+    depends_on:
+      - mysql-db
     build:
       context: ./google_sheet_writer
       dockerfile: Dockerfile
