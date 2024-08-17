@@ -19,6 +19,7 @@ RUN npm run build
 # Copy the .env and .env.development files
 COPY .env .env
 
+COPY .env.docker .env.docker
 # Expose the port on which the app will run
 EXPOSE 3007
 
