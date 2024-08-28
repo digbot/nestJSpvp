@@ -106,6 +106,8 @@ export class MonthService {
       diffWithoutInvest: diffWithoutInvest,
       invest: monthState.invest,
       middleMonthValue: totalByMonth,
+      in: monthState.in,
+      out: monthState.out,
     };
   }
 

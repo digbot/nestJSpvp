@@ -19,4 +19,10 @@ export class ListShortResponseDto {
 
   @IsInt()
   readonly middleMonthValue: number;
+
+  @IsInt()
+  readonly in: number;
+
+  @IsInt()
+  readonly out: number;
 }
