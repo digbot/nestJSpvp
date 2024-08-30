@@ -18,7 +18,6 @@ const ItemList: React.FC = () => {
     fetch('http://127.0.0.1:5000/api/data') // Replace with your actual API endpoint
       .then((response) => response.json())
       .then((data: any) => {
-        console.log(data.msg_ids);
         setItems(data.msg_ids);
         setLoading(false);
       })
