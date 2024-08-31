@@ -59,6 +59,9 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+/webui/node_modules
+/webui/build
+
 
 
 node_modules

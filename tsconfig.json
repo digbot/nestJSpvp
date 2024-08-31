@@ -18,6 +18,6 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
   },
-    "include": ["src/**/*"],
-    "exclude": ["node_modules", "dist", "webui"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "webui"]
 }
