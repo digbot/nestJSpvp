@@ -15,7 +15,7 @@ const ItemList: React.FC = () => {
 
   // Fetch the data from an API (replace with your actual API)
   useEffect(() => {
-    fetch('http://127.0.0.1:5000/api/data') // Replace with your actual API endpoint
+    fetch('http://localhost:5000/api/data') // Replace with your actual API endpoint
       .then((response) => response.json())
       .then((data: any) => {
         setItems(data.msg_ids);
@@ -29,7 +29,7 @@ const ItemList: React.FC = () => {
 
   const deleteItem = (id: number) => {
     // Implement the delete logic here
-    fetch(`http://127.0.0.1:5000/api/data/${id}`, {
+    fetch(`http:///localhost:5000/api/data/${id}`, {
       method: 'DELETE',
     })
       .then((response) => {

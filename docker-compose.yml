@@ -1,5 +1,6 @@
 networks:
   default:
+    driver: bridge
 
 services:
   mysql-db:
@@ -49,6 +50,7 @@ services:
     container_name: pvp-webui
     depends_on:
       - mysql-db
+      - google-sheet-writer
     build:
       context: ./webui
       dockerfile: Dockerfile
@@ -61,6 +63,8 @@ services:
       - NODE_ENV=production
     volumes:
        - ./webui:/app
+    networks:
+      - default
 
   google-sheet-writer:
     container_name: google-sheet-writer
@@ -71,6 +75,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - 5000:5000
+    expose:
+      - 5000
     stdin_open: true
     tty: true
     volumes:
