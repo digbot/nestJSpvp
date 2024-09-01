@@ -1,26 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
+import ItemList from './components/ItemList';
+import AddItemForm from './components/AddItemForm'; 
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <header className="App-header">
+          <h1>Fetch and List Items</h1>
+          <Routes>
+            <Route path="/" element={<ItemList />} />
+            <Route path="/add" element={<AddItemForm onAdd={() => {}} onCancel={() => {}} />} />
+          </Routes>
+        </header>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;

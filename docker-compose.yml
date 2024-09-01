@@ -53,7 +53,9 @@ services:
       context: ./webui
       dockerfile: Dockerfile
     ports:
-      - "3000:81"
+      - "81:81"
+    expose:
+      - 81
     # Optional environment variables, volumes, etc.
     environment:
       - NODE_ENV=production

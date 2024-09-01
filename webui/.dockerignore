@@ -1,0 +1,33 @@
+# Node modules and logs
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Production build
+build
+
+# Local environment variables
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Mac OS files
+.DS_Store
+
+# Docker files
+Dockerfile
+docker-compose.yml
+
+# Git and other version control
+.git
+.gitignore
+
+# IDE/Editor-specific files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
