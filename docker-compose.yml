@@ -46,7 +46,7 @@ services:
     command: bash -c "npm install && npm run start:prod"
 
   pvp-webui-app:
-    container_name: webui
+    container_name: pvp-webui
     depends_on:
       - mysql-db
     build:
