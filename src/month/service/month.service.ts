@@ -167,8 +167,11 @@ export class MonthService {
     const currentMonthIndex = currentDate.getMonth();
     // Get the month index of the provided date (0-11)
     const givenMonthIndex = date.getMonth();
+    const currentYearIndex = currentDate.getFullYear();
+    const givenYearIndex = date.getFullYear();
     // Compare the current month index with the given month index
-    return currentMonthIndex === givenMonthIndex;
+    return currentMonthIndex === givenMonthIndex &&
+            currentYearIndex === givenYearIndex;
   }
 
   private isDateInCurrentYear(date: Date): boolean {

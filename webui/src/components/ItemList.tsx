@@ -14,8 +14,9 @@ const ItemList: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   // Fetch the data from an API (replace with your actual API)
-  useEffect(() => {
-    fetch('http://localhost:5000/api/data') // Replace with your actual API endpoint
+
+  const loadData = () => {
+    fetch(process.env.REACT_APP_API_URL + '/api/data') // Replace with your actual API endpoint
       .then((response) => response.json())
       .then((data: any) => {
         setItems(data.msg_ids);
@@ -25,16 +26,20 @@ const ItemList: React.FC = () => {
         console.error('Error fetching data:', error);
         setLoading(false);
       });
+
+  }
+  useEffect(() => {
+    loadData();
   }, []);
 
   const deleteItem = (id: number) => {
     // Implement the delete logic here
-    fetch(`http:///localhost:5000/api/data/${id}`, {
+    fetch(`${process.env.REACT_APP_API_URL}/api/data/${id}`, {
       method: 'DELETE',
     })
       .then((response) => {
         if (response.ok) {
-       //   setItems(items.filter((item) => item.date !== id));
+          loadData();
         }
       })
       .catch((error) => console.error('Error deleting item:', error));
@@ -44,8 +49,25 @@ const ItemList: React.FC = () => {
     return <p>Loading...</p>;
   }
 
+  const onRun = () => {
+      // Implement the delete logic here
+      fetch(`${process.env.REACT_APP_API_URL}/api/run`, {
+        method: 'POST',
+      })
+      .then((response) => {
+        if (response.ok) {
+          alert(JSON.stringify(response));
+        }
+      })
+      .catch((error) => console.error('Something went wrong', error));
+  }
+
   return (
     <div>
+      <div>
+         <h2>Button list List</h2>
+         <button type="button" onClick={onRun}>RUN</button>  
+      </div>  
       <h2>Items List</h2>
       <table>
         <thead>
