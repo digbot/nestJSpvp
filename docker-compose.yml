@@ -81,6 +81,7 @@ services:
     tty: true
     volumes:
       - ./google_sheet_writer/:/app
+      - ./google_sheet_writer/data:/app/data
     networks:
       - default
 

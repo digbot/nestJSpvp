@@ -35,8 +35,7 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ onAdd, onCancel }) => {
 
     // Create new item object
     const newItem = {
-      id: getCurrentDateFormatted(), // Unique identifier
-      date,
+      date: getCurrentDateFormatted(), // Unique identifier,
       amount: numericAmount,
       description,
       command,
