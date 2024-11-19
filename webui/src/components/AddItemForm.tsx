@@ -12,7 +12,6 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ onAdd, onCancel }) => {
 
   const navigate = useNavigate(); // Initialize the useNavigate hook
 
-
   const getCurrentDateFormatted = () => {
     const date = new Date();
     const day = String(date.getDate()).padStart(2, '0');  // Ensure two digits
@@ -81,7 +80,7 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ onAdd, onCancel }) => {
       </div>
       <div>
         <label>Description:</label>
-        <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} required />
+        <input type="text" value={description} onChange={(e) => setDescription(e.target.value)}  />
       </div>
       <div>
         <label>Command:</label>

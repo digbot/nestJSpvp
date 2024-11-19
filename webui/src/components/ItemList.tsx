@@ -14,19 +14,18 @@ const ItemList: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   // Fetch the data from an API (replace with your actual API)
-
   const loadData = () => {
     fetch(process.env.REACT_APP_API_URL + '/api/data') // Replace with your actual API endpoint
-      .then((response) => response.json())
-      .then((data: any) => {
-        setItems(data.msg_ids);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-        setLoading(false);
-      });
-
+        .then((response) => response.json())
+        .then((data: any) => {
+            console.log('----> :: ', data.msg_ids);
+            setItems(data.msg_ids);
+            setLoading(false);
+        })
+        .catch((error) => {
+            console.error('Error fetching data:', error);
+            setLoading(false);
+        });
   }
   useEffect(() => {
     loadData();
@@ -51,6 +50,8 @@ const ItemList: React.FC = () => {
 
   const onRun = () => {
       // Implement the delete logic here
+      console.log ('REACT_APP_API_URL: ', process.env.REACT_APP_API_URL );
+
       fetch(`${process.env.REACT_APP_API_URL}/api/run`, {
         method: 'POST',
       })
@@ -87,7 +88,7 @@ const ItemList: React.FC = () => {
               <td>{item[2]}</td>
               <td>{item[3]}</td>
               <td>
-                <button onClick={() => deleteItem(index)}>Delete</button>
+                <button onClick={() => deleteItem(index + 1)}>Delete</button>
               </td>
             </tr>
           ))}
