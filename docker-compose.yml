@@ -66,24 +66,5 @@ services:
     networks:
       - default
 
-  google-sheet-writer:
-    container_name: google-sheet-writer
-    depends_on:
-      - mysql-db
-    build:
-      context: ./google_sheet_writer
-      dockerfile: Dockerfile
-    ports:
-      - 5000:5000
-    expose:
-      - 5000
-    stdin_open: true
-    tty: true
-    volumes:
-      - ./google_sheet_writer/:/app
-      - ./google_sheet_writer/data:/app/data
-    networks:
-      - default
-
 volumes: 
   mysql-volume:

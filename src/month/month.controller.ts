@@ -2,7 +2,6 @@ import {
   Body,
   Get,
   Patch,
-  Delete,
   Controller,
   Post,
   Injectable,

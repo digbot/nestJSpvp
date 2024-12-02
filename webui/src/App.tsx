@@ -7,14 +7,16 @@ import AddItemForm from './components/AddItemForm';
 const App: React.FC = () => {
   return (
     <Router>
+      <div className="bg-gray-100 p-8">
       <div className="App">
-        <header className="App-header">
-          <h1>Fetch and List Items</h1>
-          <Routes>
-            <Route path="/" element={<ItemList />} />
-            <Route path="/add" element={<AddItemForm onAdd={() => {}} onCancel={() => {}} />} />
-          </Routes>
-        </header>
+          <header className="App-header">
+            <h1>Fetch and List Items</h1>
+            <Routes>
+              <Route path="/" element={<ItemList />} />
+              <Route path="/add" element={<AddItemForm onAdd={() => {}} onCancel={() => {}} />} />
+            </Routes>
+          </header>
+        </div>
       </div>
     </Router>
   );

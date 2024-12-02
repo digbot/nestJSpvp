@@ -33,4 +33,9 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  @Get('run')
+  getRun(): any {
+    return this.appService.runPythonScript();
+  }
 }
