@@ -97,10 +97,7 @@ export class MonthService {
           ? this.getCurrentDayOfMonth()
           : this.getDaysInMonth(monthState.date)),
       grath:
-        monthState.out -
-        monthState.invest +
-        ': ' +
-        this.printChart((monthState.out - monthState.invest) / 100),
+        diffWithoutInvest + ': ' + this.printChart(diffWithoutInvest / 100),
       date: this.getDate(monthState),
       diff: monthState.in - monthState.out,
       diffWithoutInvest: diffWithoutInvest,

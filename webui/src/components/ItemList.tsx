@@ -1,63 +1,62 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import axios from 'axios';
 
-// Define a TypeScript interface for the item structure
 interface Item {
   id: number;
   date: string;
-  amount: number;
-  description: string;
-  command: string;
+  value: number;
+  comment: string;
+  note: string;
+  type: string;
 }
 
 const ItemList: React.FC = () => {
-  const [items, setItems] = useState<[]>([]);
+  const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  // Fetch the data from an API (replace with your actual API)
-  const loadData = () => {
-    fetch(process.env.REACT_APP_API_URL + '/day/byMonth') // Replace with your actual API endpoint
-        .then((response) => response.json())
-        .then((data: any) => {
-            setItems(data);
-          setLoading(false);
-        })
-        .catch((error) => {
-            console.error('Error fetching data:', error);
-            setLoading(false);
-        });
-  }
+  const [isReloading, setIsReloading] = useState<boolean>(false);
+  
+
+  const loadData = async () => {
+    try {
+      const response = await axios.get<Item[]>(`${process.env.REACT_APP_API_URL}/day/byMonth`);
+      setItems(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     loadData();
   }, []);
 
-  const deleteItem = (id: number) => {
-    // Implement the delete logic here
-    fetch(`${process.env.REACT_APP_API_URL}/day/byId?id=${id}`, {
-      method: 'DELETE',
-    })
-      .then((response) => {
-        if (response.ok) {
-          loadData();
-        }
-      })
-      .catch((error) => console.error('Error deleting item:', error));
+  const deleteItem = async (id: number) => {
+    try {
+      await axios.delete(`${process.env.REACT_APP_API_URL}/day/byId?id=${id}`);
+      loadData(); // Refresh the list after deletion
+    } catch (error) {
+      console.error('Error deleting item:', error);
+    }
+  };
+
+  const onRun = async () => {
+    setIsReloading(true); // Set reloading state
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/run`);
+      if (response.status === 200) {
+        await loadData(); // Await the data reload before resetting the state
+      }
+    } catch (error) {
+      console.error('Something went wrong:', error);
+    } finally {
+      setIsReloading(false); // Reset reloading state
+    }
   };
 
   if (loading) {
     return <p>Loading...</p>;
-  }
-
-  const onRun = () => {
-      // Implement the delete logic here
-      fetch(`${process.env.REACT_APP_API_URL}/run`, {
-        method: 'GET',
-      })
-      .then((response) => {
-        if (response.ok) {
-          window.location.reload();
-        }
-      })
-      .catch((error) => console.error('Something went wrong', error));
   }
 
   return (
@@ -65,29 +64,29 @@ const ItemList: React.FC = () => {
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold">Button List</h2>
         <button 
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" 
+          className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${isReloading ? 'cursor-wait' : ''}`} 
           type="button" 
           onClick={onRun}
+          disabled={isReloading} // Disable the button while reloading
         >
-          RUN
+          {isReloading ? 'Reloading...' : 'RUN'}
         </button>
       </div>
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold"> </h2>
+        <h2 className="text-xl font-semibold"></h2>
         <Link to="/add">
           <button 
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" 
-            type="button" 
-            onClick={onRun}
+            type="button"
           >
             ADD
           </button>
         </Link>
       </div>
-      <h2 className="text-xl font-semibold">Items List</h2>
-      <table className="w-full table-auto space-y-2">
+      <h2 className="text-xl font-semibold">Transactions</h2>
+      <table className="w-full table-auto">
         <thead>
-          <tr className="bg-gray-200">
+          <tr>
             <th className="px-4 py-2">Date</th>
             <th className="px-4 py-2">Amount</th>
             <th className="px-4 py-2">Description</th>
@@ -98,16 +97,16 @@ const ItemList: React.FC = () => {
         </thead>
         <tbody>
           {items.map((item) => (
-            <tr key={item['id']} className="border-b border-gray-200">
-              <td className="px-4 py-2">{new Date(item['date']).toLocaleDateString()}</td>
-              <td className="px-4 py-2 text-right">{item['value']}</td>
-              <td className="px-4 py-2 text-left">{item['comment']} </td>
-              <td className="px-4 py-2 text-left">{item['note']}</td>
-              <td className="px-4 py-2 text-left">{item['type']}</td>
+            <tr key={item.id} className="border-b border-gray-200">
+              <td className="px-4 py-2">{new Date(item.date).toLocaleDateString()}</td>
+              <td className="px-4 py-2 text-right">{item.value}</td>
+              <td className="px-4 py-2">{item.comment}</td>
+              <td className="px-4 py-2">{item.note}</td>
+              <td className="px-4 py-2">{item.type}</td>
               <td className="px-4 py-2">
                 <button 
                   className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" 
-                  onClick={() => deleteItem(item['id'])}
+                  onClick={() => deleteItem(item.id)}
                 >
                   Delete
                 </button>

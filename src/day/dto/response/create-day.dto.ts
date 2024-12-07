@@ -21,4 +21,7 @@ export class CreateDayResponseDto {
 
   @IsString()
   readonly hash: string;
+
+  @IsNumber()
+  readonly totalValue?: number;
 }

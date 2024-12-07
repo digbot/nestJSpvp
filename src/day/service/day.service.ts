@@ -69,8 +69,9 @@ export class DayService {
   async getByMonthAsync(month: number): Promise<Array<CreateDayRequestDto>> {
     const result = await this.dayRepository
       .createQueryBuilder('day')
-      .select('day.*')
+      .select('day.*,SUM(day.value) OVER () AS totalValue')
       .where('MONTH(day.date) = :month', { month })
+      .orderBy('day.date', 'DESC')
       .getRawMany();
 
     return result.map((x) => this.mapEntityToDto(x));
