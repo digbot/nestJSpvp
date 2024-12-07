@@ -89,18 +89,19 @@ export class MonthService {
     totalByMonth: number,
   ): ListShortResponseDto {
     const isCurrentMonth = this.isCurrentMonth(monthState.date);
-    const diffWithoutInvest = Math.abs(monthState.out - monthState.invest);
+    const diffWithoutInvest = monthState.out - monthState.invest;
+    const diff = monthState.in - monthState.out;
+    const base = diff > diffWithoutInvest ? diff : diffWithoutInvest;
     return {
       byDay:
-        diffWithoutInvest /
+        Math.abs(base) /
         (isCurrentMonth
           ? this.getCurrentDayOfMonth()
           : this.getDaysInMonth(monthState.date)),
-      grath:
-        diffWithoutInvest + ': ' + this.printChart(diffWithoutInvest / 100),
+      grath: Math.abs(base) + ': ' + this.printChart(Math.abs(base) / 100),
       date: this.getDate(monthState),
       diff: monthState.in - monthState.out,
-      diffWithoutInvest: diffWithoutInvest,
+      diffWithoutInvest: diff,
       invest: monthState.invest,
       middleMonthValue: totalByMonth,
       in: monthState.in,
