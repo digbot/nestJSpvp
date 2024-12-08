@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { DayState } from '../../typeorm/entities/DayState';
 import { CreateDayRequestDto } from '../../day/dto/request/create-day.dto';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class DayService {
@@ -26,10 +27,7 @@ export class DayService {
     });
 
     if (item) {
-      console.log('input', {
-        ...item, // existing fields
-        ...postDTO, // updated fields
-      });
+      const uuid = uuidv4();
       return this.dayRepository.save({
         ...item, // existing fields
         ...postDTO, // updated fields
