@@ -26,7 +26,7 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ onAdd, onCancel }) => {
   };
 
   const [date, setDate] = useState<string>(getCurrentDateFormatted());
-  const [amount, setAmount] = useState<Number>(0);
+  const [amount, setAmount] = useState<String>('');
   const [description, setDescription] = useState<string>('');
   const [comment, setComment] = useState<string>('');
 
@@ -40,7 +40,7 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ onAdd, onCancel }) => {
     // Create new item object
     let newItem = {
       date: getCurrentDateFormatted(), // Unique identifier,
-      value: numericAmount,
+      value: Number(numericAmount),
       note: description,
       comment: comment,
       type: 'manuel',
@@ -93,10 +93,10 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ onAdd, onCancel }) => {
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="amount">Amount:</label>
         <input 
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-          type="number" 
+          type="text" 
           id="amount" 
           value={amount.toString()} 
-          onChange={(e) => setAmount(Number(e.target.value)*-1)} 
+          onChange={(e) => setAmount(e.target.value)} 
           required 
         />
       </div>

@@ -91,7 +91,7 @@ export class MonthService {
     const isCurrentMonth = this.isCurrentMonth(monthState.date);
     const diffWithoutInvest = monthState.out - monthState.invest;
     const diff = monthState.in - monthState.out;
-    const base = diff > diffWithoutInvest ? diff : diffWithoutInvest;
+    const base = diffWithoutInvest;
     return {
       byDay:
         Math.abs(base) /
