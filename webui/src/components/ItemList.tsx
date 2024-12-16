@@ -98,7 +98,7 @@ const ItemList: React.FC = () => {
         <tbody>
           {items.map((item) => (
             <tr key={item.id} className="border-b border-gray-200">
-              <td className="px-4 py-2">{new Date(item.date).toLocaleDateString()}</td>
+              <td className="px-4 py-2">{item.date}</td>
               <td className="px-4 py-2 text-right">{item.value}</td>
               <td className="px-4 py-2">{item.comment}</td>
               <td className="px-4 py-2">{item.note}</td>
