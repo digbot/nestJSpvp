@@ -7,6 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "dev": "concurrently \"npm run start:dev\" \"cd webui && npm run start\"",
+    "main": "concurrently  \"npm run start:dev\" \"cd google_sheet_writer && python -X utf8  main.py\"",
     "docker:build": "docker build -t pvp_docker .",
     "docker:start": "docker run --rm -p 3001:3001 nestjs-app",
     "docker:creat_db": "docker pull mysql:8.2.0",

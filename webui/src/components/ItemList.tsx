@@ -16,7 +16,6 @@ const ItemList: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [isReloading, setIsReloading] = useState<boolean>(false);
   
-
   const loadData = async () => {
     try {
       const response = await axios.get<Item[]>(`${process.env.REACT_APP_API_URL}/day/byMonth`);
@@ -42,16 +41,19 @@ const ItemList: React.FC = () => {
   };
 
   const onRun = async () => {
-    setIsReloading(true); // Set reloading state
-    try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/run`);
-      if (response.status === 200) {
-        await loadData(); // Await the data reload before resetting the state
-      }
-    } catch (error) {
-      console.error('Something went wrong:', error);
-    } finally {
-      setIsReloading(false); // Reset reloading state
+      setIsReloading(true); // Set reloading state
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/run`);
+        if (response.status === 200) {
+           await loadData(); // Await the data reload before resetting the state
+        } else {
+           alert('Response code: ' + response.status);
+        }
+      } catch (error) {
+          alert('Response code: ' + error);
+          console.error('Something went wrong:', error);
+      } finally {
+        setIsReloading(false); // Reset reloading state
     }
   };
 
