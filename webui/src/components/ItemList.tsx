@@ -45,6 +45,7 @@ const ItemList: React.FC = () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/run`);
         if (response.status === 200) {
+           alert(response.data);
            await loadData(); // Await the data reload before resetting the state
         } else {
            alert('Response code: ' + response.status);
