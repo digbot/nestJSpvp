@@ -22,9 +22,7 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ onAdd, onCancel }) => {
     const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
     const year = date.getFullYear();
 
-    let now = new Date().toISOString(); // ISO 8601 format
-
-    return `${day}.${month}.${year}_${now}`;
+    return `${day}.${month}.${year}`;
   };
 
   const [date, setDate] = useState<string>(getCurrentDateFormatted());
