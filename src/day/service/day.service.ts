@@ -13,15 +13,28 @@ export class DayService {
   ) {}
 
   async createAsync(createDayDto: CreateDayRequestDto): Promise<DayState> {
-    const [day, month, year] = createDayDto.date.split('.');
+    console.log(createDayDto);
+    let day: string, month: string, year: string;
+
+    if (createDayDto.date.includes('.')) {
+      // Old format: dd.mm.yyyy
+      [day, month, year] = createDayDto.date.split('.');
+    } else if (createDayDto.date.includes('-')) {
+      // New format: yyyy-mm-dd
+      [year, month, day] = createDayDto.date.split('-');
+    } else {
+      throw new Error('Unsupported date format');
+    }
+
     const postDTO = {
       ...createDayDto,
       date: new Date(
         Number(year),
         Number(month) - 1,
-        Number(day),
+        Number(day)
       ).toISOString(),
     };
+
     const item = await this.dayRepository.findOne({
       where: { hash: createDayDto.hash },
     });

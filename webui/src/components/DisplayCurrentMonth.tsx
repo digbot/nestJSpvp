@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import axios from 'axios';
-
-
 
 const DisplayCurrentMonth: React.FC = () => {
   const [lastItem, setLastItem] = useState<any>('');
@@ -21,7 +18,12 @@ const DisplayCurrentMonth: React.FC = () => {
   };
 
   useEffect(() => {
-    loadData();
+    const timer = setTimeout(() => {
+      loadData();
+    }, 2000); // 2000 milliseconds = 2 seconds
+
+    // Optional cleanup in case the component unmounts before timeout completes
+    return () => clearTimeout(timer);
   }, []);
 
   if (loading) {

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 interface AddItemFormProps {
   onAdd: (item:any) => void;
-  onCancel: () => void;
+  onCancel: () => void
 }
 
 function hashStringWithCryptoJS(input: any) {
@@ -16,14 +16,14 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ onAdd, onCancel }) => {
 
   const navigate = useNavigate(); // Initialize the useNavigate hook
 
-  const getCurrentDateFormatted = () => {
-    const date = new Date();
-    const day = String(date.getDate()).padStart(2, '0');  // Ensure two digits
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-    const year = date.getFullYear();
+const getCurrentDateFormatted = () => {
+  const date = new Date();
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
 
-    return `${day}.${month}.${year}`;
-  };
+  return `${year}-${month}-${day}`; // Format for input[type="date"]
+};
 
   const [date, setDate] = useState<string>(getCurrentDateFormatted());
   const [amount, setAmount] = useState<String>('');
@@ -39,7 +39,7 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ onAdd, onCancel }) => {
 
     // Create new item object
     let newItem = {
-      date: getCurrentDateFormatted(), // Unique identifier,
+      date: date, // Unique identifier,
       value: Number(numericAmount),
       note: description,
       comment: comment,
@@ -84,7 +84,7 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ onAdd, onCancel }) => {
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
           type="date" 
           id="date" 
-          value={date} 
+          value={getCurrentDateFormatted()} 
           onChange={(e) => setDate(e.target.value)} 
           required 
         />

@@ -17,7 +17,7 @@ const App: React.FC = () => {
             <Routes>
               <Route path="/" element={<ItemList />} />
               <Route path="/months" element={<MonthList  />} />
-              <Route path="/add" element={<AddItemForm onAdd={() => {}} onCancel={() => {}} />} />
+              <Route path="/add" element={<AddItemForm onAdd={() => {}} onCancel={() => { window.location.replace('/') }} />} />
             </Routes>
           </header>
         </div>
