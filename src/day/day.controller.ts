@@ -33,14 +33,13 @@ export class DayController {
   @UseInterceptors(ClassSerializerInterceptor)
   @UsePipes(new ValidationPipe({ transform: true }))
   @Get('/byMonth')
-  async getByMonth(
-    @Query('year', new ParseIntPipe({ optional: true })) year?: number,
-    @Query('month', new ParseIntPipe({ optional: true })) month?: number,
-  ) {
+  async getByMonth() {
       const now = new Date();
-
-    year ??= now.getFullYear();
-    month ??= now.getMonth() + 1;
+      const year = now.getFullYear();
+      const month = now.getMonth() + 1;
+      
+     console.log('m,y ', month, year
+      );
 
     return this.dayService.getByMonthAsync(year, month)
   }
