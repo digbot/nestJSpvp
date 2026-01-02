@@ -12,7 +12,7 @@ import {
 import { CreateDayRequestDto } from '../day/dto/request/create-day.dto';
 import { CreateDayResponseDto } from '../day/dto/response/create-day.dto';
 import { DayService } from './service/day.service';
-import { ClassSerializerInterceptor, UseInterceptors } from '@nestjs/common';
+import { ClassSerializerInterceptor, UseInterceptors, ParseIntPipe } from '@nestjs/common';
 
 @Injectable()
 @Controller('day')
@@ -33,13 +33,16 @@ export class DayController {
   @UseInterceptors(ClassSerializerInterceptor)
   @UsePipes(new ValidationPipe({ transform: true }))
   @Get('/byMonth')
-  async getByMonth(@Query('month') month: number) {
-    if (isNaN(month) || !month) {
-      const currentDate = new Date();
-      month = currentDate.getMonth() + 1;
-    }
-    const res = await this.dayService.getByMonthAsync(month);
-    return res;
+  async getByMonth(
+    @Query('year', new ParseIntPipe({ optional: true })) year?: number,
+    @Query('month', new ParseIntPipe({ optional: true })) month?: number,
+  ) {
+      const now = new Date();
+
+    year ??= now.getFullYear();
+    month ??= now.getMonth() + 1;
+
+    return this.dayService.getByMonthAsync(year, month)
   }
 
   @UseInterceptors(ClassSerializerInterceptor)

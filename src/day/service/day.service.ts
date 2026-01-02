@@ -77,11 +77,12 @@ export class DayService {
     return response;
   }
 
-  async getByMonthAsync(month: number): Promise<Array<CreateDayRequestDto>> {
+  async getByMonthAsync(year: number, month: number): Promise<Array<CreateDayRequestDto>> {
     const result = await this.dayRepository
       .createQueryBuilder('day')
       .select('day.*,SUM(day.value) OVER () AS totalValue')
-      .where('MONTH(day.date) = :month', { month })
+      .where('MONTH(day.date) = :month  ', { month })
+      .andWhere('YEAR(day.date) = :year  ', { year } )
       .orderBy('day.date', 'DESC')
       .getRawMany();
 
