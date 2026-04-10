@@ -3,11 +3,15 @@ USE pvp;
 
 CREATE TABLE  IF NOT EXISTS   `month` (
   `in` int NOT NULL,
+  `in_bgn` int DEFAULT NULL,
   `out` int NOT NULL,
+  `out_bgn` int DEFAULT NULL,
   `date` datetime NOT NULL,
   `buffer` int DEFAULT NULL,
+  `buffer_bgn` int DEFAULT NULL,
   `id` bigint NOT NULL AUTO_INCREMENT,
   `invest` int NOT NULL,
+  `invest_bgn` int DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
 

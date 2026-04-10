@@ -37,11 +37,8 @@ export class DayController {
       const now = new Date();
       const year = now.getFullYear();
       const month = now.getMonth() + 1;
-      
-     console.log('m,y ', month, year
-      );
 
-    return this.dayService.getByMonthAsync(year, month)
+      return this.dayService.getByMonthAsync(year, month)
   }
 
   @UseInterceptors(ClassSerializerInterceptor)
