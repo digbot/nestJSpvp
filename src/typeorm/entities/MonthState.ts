@@ -33,6 +33,9 @@ export class MonthState {
   @Column({ nullable: true })
   invest_bgn: number | null;
 
+  @Column({ nullable: true })
+  middleMonthValueByYear: number | null;
+
   @Expose()
   get diff(): number {
     return this.in - this.out;

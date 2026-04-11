@@ -12,6 +12,7 @@ CREATE TABLE  IF NOT EXISTS   `month` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `invest` int NOT NULL,
   `invest_bgn` int DEFAULT NULL,
+  `middleMonthValueByYear` int DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
 
