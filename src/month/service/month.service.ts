@@ -228,4 +228,38 @@ export class MonthService {
       this.monthRepository.save(newMonth);
     });
   }
+
+  public async updateMiddleMonthValueByYear() {
+    const list: MonthState[] = await this.monthRepository.find();
+    // Group by year
+    const byYear: Record<number, MonthState[]> = {};
+    for (const item of list) {
+      const year = new Date(item.date).getFullYear();
+      if (!byYear[year]) {
+        byYear[year] = [];
+      }
+      byYear[year].push(item);
+    }
+
+    // Calculate and update
+    for (const year of Object.keys(byYear)) {
+      const numericYear = Number(year);
+      const items = byYear[numericYear];
+
+      let sum = 0;
+      for (const item of items) {
+        const cost = Number(item.out || 0) - Number(item.invest || 0);
+        console.log("__", cost);
+        sum += Number(item.out || 0) - Number(item.invest || 0);
+      }
+      
+      const middleValue = items.length > 0 ? sum / items.length : 0;
+       // console.log(sum, items.length ,sum/ items.length , year);
+
+       for (const item of items) {
+        item.middleMonthValueByYear = middleValue;
+        await this.monthRepository.save(item);
+      }
+    }
+  }
 }
