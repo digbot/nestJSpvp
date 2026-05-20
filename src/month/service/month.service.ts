@@ -6,6 +6,7 @@ import { CreateMonthDto } from '../create-month.dto';
 import { ListDetailsResponseDto } from '../dto/response/list-details.dto';
 import { ListShortResponseDto } from '../dto/response/list-short.dto';
 import { promises as fs } from 'fs';
+
 // Define the type for the items array
 type Item = [number, number, string, number, number];
 
@@ -41,7 +42,7 @@ export class MonthService {
     this.monthRepository.clear();
   }
 
-  async getAllShortAsync(): Promise<Array<ListShortResponseDto>> {
+  async getAllShortAsync(prev: boolean = false): Promise<Array<ListShortResponseDto>> {
     const list: MonthState[] = await this.monthRepository.find({
       order: {
         date: 'DESC',
@@ -227,6 +228,20 @@ export class MonthService {
       });
       this.monthRepository.save(newMonth);
     });
+  }
+
+  public async getCurrentAsync() {
+    const currentMonth = new Date().getMonth() + 1;
+
+    const list: MonthState[] = await this.monthRepository
+      .createQueryBuilder('monthState')
+      .where('EXTRACT(MONTH FROM monthState.date) = :month', {
+        month: currentMonth,
+      })
+      .orderBy('monthState.date', 'DESC')
+      .getMany();
+
+    return list.map((x) => this.mapShortToDto(x, x.middleMonthValueByYear));
   }
 
   public async updateMiddleMonthValueByYear() {

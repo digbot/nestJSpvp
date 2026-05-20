@@ -7,6 +7,7 @@ import {
   Injectable,
   ValidationPipe,
   UsePipes,
+  Query,
 } from '@nestjs/common';
 import { CreateRequestMonthDto } from '../month/dto/request/create-month.dto';
 import { CreateMonthResponseDto } from '../month/dto/response/create-month.dto';
@@ -43,10 +44,19 @@ export class MonthController {
   @UseInterceptors(ClassSerializerInterceptor)
   @UsePipes(new ValidationPipe({ transform: true }))
   @Get('/short')
-  async getAllShort() {
-    const res = await this.monthService.getAllShortAsync();
+  async getAllShort(@Query('prev') prev: boolean) {
+    const res = await this.monthService.getAllShortAsync(prev);
     return res;
   }
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @UsePipes(new ValidationPipe({ transform: true }))
+  @Get('/current')
+  async getCurrent() {
+    const res = await this.monthService.getCurrentAsync();
+    return res;
+  }
+
 
   @UseInterceptors(ClassSerializerInterceptor)
   @UsePipes(new ValidationPipe({ transform: true }))
