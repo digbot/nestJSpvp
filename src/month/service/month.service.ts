@@ -42,12 +42,8 @@ export class MonthService {
     this.monthRepository.clear();
   }
 
-  async getAllShortAsync(prev: boolean = false): Promise<Array<ListShortResponseDto>> {
-    const list: MonthState[] = await this.monthRepository.find({
-      order: {
-        date: 'DESC',
-      },
-    });
+
+  private getTotalByMonth(list: MonthState[]): number {
 
     const totalByMonthNumber = list.reduce((accumulator, item) => {
       if (
@@ -73,7 +69,18 @@ export class MonthService {
 
     const totalByMonth = totalByMonthNumber / totalByMonthCount;
 
-    return list.map((x) => this.mapShortToDto(x, totalByMonth));
+    return totalByMonth;
+
+  }
+
+  async getAllShortAsync(prev: boolean = false): Promise<Array<ListShortResponseDto>> {
+    const list: MonthState[] = await this.monthRepository.find({
+      order: {
+        date: 'DESC',
+      },
+    })
+
+    return list.map((x) => this.mapShortToDto(x, this.getTotalByMonth(list)));
   }
 
   async getAllAsync(): Promise<Array<ListDetailsResponseDto>> {
@@ -241,7 +248,14 @@ export class MonthService {
       .orderBy('monthState.date', 'DESC')
       .getMany();
 
-    return list.map((x) => this.mapShortToDto(x, x.middleMonthValueByYear));
+  
+    const totoList: MonthState[] = await this.monthRepository.find({
+      order: {
+        date: 'DESC',
+      },
+    })
+
+    return list.map((x) => this.mapShortToDto(x, this.isDateInCurrentYear(x.date) ? this.getTotalByMonth(totoList) : x.middleMonthValueByYear));
   }
 
   public async updateMiddleMonthValueByYear() {
