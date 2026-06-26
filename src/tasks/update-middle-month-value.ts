@@ -5,7 +5,7 @@ import { MonthService } from '../month/service/month.service';
 async function bootstrap() {
   const app = await NestFactory.createApplicationContext(AppModule);
   const monthService = app.get(MonthService);
-  
+
   console.log('Starting calculation for middleMonthValueByYear...');
   try {
     await monthService.updateMiddleMonthValueByYear();

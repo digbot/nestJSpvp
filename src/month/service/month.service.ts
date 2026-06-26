@@ -274,15 +274,16 @@ export class MonthService {
     for (const year of Object.keys(byYear)) {
       const numericYear = Number(year);
       const items = byYear[numericYear];
+      const filteredItems = items.filter(item => !this.isCurrentMonth(new Date(item.date)));
 
       let sum = 0;
-      for (const item of items) {
+      for (const item of filteredItems) {
         const cost = Number(item.out || 0) - Number(item.invest || 0);
         console.log("__", cost);
         sum += Number(item.out || 0) - Number(item.invest || 0);
       }
-      
-      const middleValue = items.length > 0 ? sum / items.length : 0;
+
+      const middleValue = filteredItems.length > 0 ? sum / filteredItems.length : 0;
        // console.log(sum, items.length ,sum/ items.length , year);
 
        for (const item of items) {
