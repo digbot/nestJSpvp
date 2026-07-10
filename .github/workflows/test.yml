@@ -36,3 +36,26 @@ jobs:
         working-directory: webui
       - run: npm test -- --watchAll=false
         working-directory: webui
+
+  deploy:
+    name: Deploy (mock)
+    needs: [backend, webui]
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build backend
+        run: echo "Building NestJS backend..." && sleep 1 && echo "Build complete."
+
+      - name: Build webui
+        run: echo "Building React webui..." && sleep 1 && echo "Build complete."
+
+      - name: Deploy to production (mock)
+        run: |
+          echo "All tests passed on master — deploying..."
+          echo "Pushing backend image to registry (mock)"
+          sleep 1
+          echo "Pushing webui build to hosting (mock)"
+          sleep 1
+          echo "Deployment finished successfully."
