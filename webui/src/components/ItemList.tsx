@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import axios from 'axios';
+import Toast from './Toast';
 
 interface Item {
   id: number;
@@ -15,7 +16,8 @@ const ItemList: React.FC = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [isReloading, setIsReloading] = useState<boolean>(false);
-  
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+
   const loadData = async () => {
     try {
       const response = await axios.get<Item[]>(`${process.env.REACT_APP_API_URL}/day/byMonth`);
@@ -45,13 +47,13 @@ const ItemList: React.FC = () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/run`);
         if (response.status === 200) {
-           alert(response.data);
+           setToast({ message: response.data, type: 'success' });
            await loadData(); // Await the data reload before resetting the state
         } else {
-           alert('Response code: ' + response.status);
+           setToast({ message: 'Response code: ' + response.status, type: 'error' });
         }
       } catch (error) {
-          alert('Response code: ' + error);
+          setToast({ message: 'Response code: ' + error, type: 'error' });
           console.error('Something went wrong:', error);
       } finally {
         setIsReloading(false); // Reset reloading state
@@ -64,6 +66,9 @@ const ItemList: React.FC = () => {
 
   return (
     <div className="flex flex-col space-y-4">
+      {toast && (
+        <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />
+      )}
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold">Button List</h2>
         <button 
