@@ -1,0 +1,38 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  backend:
+    name: Backend unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+
+      - run: npm ci
+      - run: npm run test
+
+  webui:
+    name: Webui unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+          cache-dependency-path: webui/package-lock.json
+
+      - run: npm ci
+        working-directory: webui
+      - run: npm test -- --watchAll=false
+        working-directory: webui
