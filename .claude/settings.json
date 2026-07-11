@@ -1,4 +1,24 @@
 {
+  "maxTurns": 50,
+  "permissions": {
+      "allow": [
+        "Read",
+        "Glob",
+        "Grep",
+        "Bash(git status)",
+        "Bash(git diff*)",
+        "Bash(git log*)",
+        "Bash(npm test*)",
+        "Bash(npm run *)",
+        "Bash(python -m pytest*)"
+      ],
+      "deny": [
+        "Bash(rm -rf /*)",
+        "Bash(git push --force*)",
+        "Bash(git reset --hard*)",
+        "Bash(sudo *)"
+      ]
+  },
   "hooks": {
     "PreToolUse": [
       {
