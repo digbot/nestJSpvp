@@ -34,6 +34,9 @@ const ItemList: React.FC = () => {
   }, []);
 
   const deleteItem = async (id: number) => {
+    if (!window.confirm('Are you sure you want to delete this transaction?')) {
+      return;
+    }
     try {
       await axios.delete(`${process.env.REACT_APP_API_URL}/day/byId?id=${id}`);
       loadData(); // Refresh the list after deletion
