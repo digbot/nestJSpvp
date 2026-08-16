@@ -27,4 +27,7 @@ export class DayState {
   @Column({ type: 'varchar', length: 255 })
   @Index() // Add index decorator to create an index on the hash column
   hash: string; // New column for storing hash values
+
+  @Column({ type: 'boolean', default: false })
+  extra: boolean;
 }

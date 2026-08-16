@@ -22,6 +22,12 @@ export class MonthState {
   out_bgn: number | null;
 
   @Column({ nullable: true })
+  extra_in: number | null;
+
+  @Column({ nullable: true })
+  extra_out: number | null;
+
+  @Column({ nullable: true })
   buffer: number | null;
 
   @Column({ nullable: true })
