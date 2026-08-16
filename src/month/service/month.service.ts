@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { plainToInstance } from 'class-transformer';
 import { MonthState } from '../../typeorm/entities/MonthState';
 import { CreateMonthDto } from '../create-month.dto';
 import { ListDetailsResponseDto } from '../dto/response/list-details.dto';
@@ -100,7 +101,7 @@ export class MonthService {
     const diffWithoutInvest = monthState.out - monthState.invest;
     const diff = monthState.in - monthState.out;
     const base = diffWithoutInvest;
-    return {
+    return plainToInstance(ListShortResponseDto, {
       byDay:
         Math.abs(base) /
         (isCurrentMonth
@@ -115,7 +116,7 @@ export class MonthService {
       in: monthState.in,
       out: monthState.out,
       extra_in: monthState.extra_in ?? 0,
-    };
+    });
   }
 
   private getDaysInMonth(date: Date): number {
