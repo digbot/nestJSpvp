@@ -115,7 +115,6 @@ export class MonthService {
       in: monthState.in,
       out: monthState.out,
       extra_in: monthState.extra_in ?? 0,
-      extra_out: monthState.extra_out ?? 0,
     };
   }
 
