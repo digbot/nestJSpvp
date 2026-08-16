@@ -25,4 +25,10 @@ export class ListShortResponseDto {
 
   @IsInt()
   readonly out: number;
+
+  @IsInt()
+  readonly extra_in: number;
+
+  @IsInt()
+  readonly extra_out: number;
 }

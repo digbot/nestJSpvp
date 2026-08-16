@@ -1,4 +1,4 @@
-import { IsInt, IsString } from 'class-validator';
+import { IsInt, IsOptional, IsString } from 'class-validator';
 
 export class CreateRequestMonthDto {
   @IsString()
@@ -9,6 +9,14 @@ export class CreateRequestMonthDto {
 
   @IsInt()
   readonly out: number;
+
+  @IsOptional()
+  @IsInt()
+  readonly extra_in: number;
+
+  @IsOptional()
+  @IsInt()
+  readonly extra_out: number;
 
   @IsInt()
   readonly buffer: number;

@@ -114,6 +114,8 @@ export class MonthService {
       middleMonthValue: totalByMonth,
       in: monthState.in,
       out: monthState.out,
+      extra_in: monthState.extra_in ?? 0,
+      extra_out: monthState.extra_out ?? 0,
     };
   }
 
@@ -135,6 +137,8 @@ export class MonthService {
   }
 
   private mapEntityToDto(monthState: MonthState): ListDetailsResponseDto {
+    monthState.extra_in = monthState.extra_in ?? 0;
+    monthState.extra_out = monthState.extra_out ?? 0;
     return {
       monthState: monthState,
       diff: monthState.in - monthState.out,
