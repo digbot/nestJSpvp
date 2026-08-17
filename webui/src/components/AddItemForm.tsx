@@ -29,6 +29,7 @@ const getCurrentDateFormatted = () => {
   const [amount, setAmount] = useState<String>('');
   const [description, setDescription] = useState<string>('');
   const [comment, setComment] = useState<string>('');
+  const [extra, setExtra] = useState<boolean>(false);
 
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -45,6 +46,7 @@ const getCurrentDateFormatted = () => {
       comment: comment,
       type: 'manuel',
       hash: '',
+      extra: extra,
     }
     newItem.hash = newItem.date + '_' + hashStringWithCryptoJS(
       newItem.date + '_' + newItem.value + '_' + newItem.note + '_' + newItem.comment
@@ -121,9 +123,19 @@ const getCurrentDateFormatted = () => {
           onChange={(e) => setDescription(e.target.value)} 
         />
       </div>
+      <div className="flex items-center">
+        <input
+          className="mr-2 leading-tight"
+          type="checkbox"
+          id="extra"
+          checked={extra}
+          onChange={(e) => setExtra(e.target.checked)}
+        />
+        <label className="text-gray-700 text-sm font-bold" htmlFor="extra">Extra</label>
+      </div>
       <div className="flex justify-between">
-        <button 
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           type="submit"
         >
           Add Item

@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateDayRequestDto {
   @IsString()
@@ -18,4 +18,8 @@ export class CreateDayRequestDto {
 
   @IsString()
   readonly hash: string; // New column for storing hash values
+
+  @IsOptional()
+  @IsBoolean()
+  readonly extra: boolean;
 }

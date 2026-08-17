@@ -10,6 +10,7 @@ interface Item {
   comment: string;
   note: string;
   type: string;
+  extra: boolean;
 }
 
 const ItemList: React.FC = () => {
@@ -103,6 +104,7 @@ const ItemList: React.FC = () => {
             <th className="px-4 py-2">Description</th>
             <th className="px-4 py-2">Command</th>
             <th className="px-4 py-2">Type</th>
+            <th className="px-4 py-2">Extra</th>
             <th className="px-4 py-2">Actions</th>
           </tr>
         </thead>
@@ -114,6 +116,7 @@ const ItemList: React.FC = () => {
               <td className="px-4 py-2">{item.comment}</td>
               <td className="px-4 py-2">{item.note}</td>
               <td className="px-4 py-2">{item.type}</td>
+              <td className="px-4 py-2 text-center">{Number(item.extra) ? 'Yes' : 'No'}</td>
               <td className="px-4 py-2">
                 <button 
                   className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" 

@@ -1,4 +1,4 @@
-import { IsDate, IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsDate, IsNumber, IsString } from 'class-validator';
 
 export class CreateDayResponseDto {
   @IsNumber()
@@ -24,4 +24,7 @@ export class CreateDayResponseDto {
 
   @IsNumber()
   readonly totalValue?: number;
+
+  @IsBoolean()
+  readonly extra: boolean;
 }
