@@ -43,7 +43,12 @@ export class MonthState {
   middleMonthValueByYear: number | null;
 
   @Expose()
+  get total_in(): number {
+    return this.in + (this.extra_in ?? 0);
+  }
+
+  @Expose()
   get diff(): number {
-    return this.in - this.out;
+    return this.total_in - this.out;
   }
 }

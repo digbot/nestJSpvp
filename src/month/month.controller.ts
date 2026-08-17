@@ -23,10 +23,10 @@ export class MonthController {
   @Post()
   async create(@Body() createMonthDto: CreateRequestMonthDto) {
     const monthState = await this.monthService.createAsync(createMonthDto);
+    const totalIn = createMonthDto.in + (createMonthDto.extra_in ?? 0);
     const createMonthResponseDto: CreateMonthResponseDto = {
-      diff: createMonthDto.in - createMonthDto.out,
-      diffWithoutInvest:
-        createMonthDto.in - createMonthDto.out - createMonthDto.invest,
+      diff: totalIn - createMonthDto.out,
+      diffWithoutInvest: totalIn - createMonthDto.out - createMonthDto.invest,
       monthState: monthState,
     };
 

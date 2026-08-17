@@ -31,6 +31,10 @@ export class ListShortResponseDto {
 
   @IsInt()
   @Transform(roundToTwoDecimals)
+  readonly total_in: number;
+
+  @IsInt()
+  @Transform(roundToTwoDecimals)
   readonly in: number;
 
   @IsInt()
